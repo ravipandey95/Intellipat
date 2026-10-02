@@ -123,22 +123,22 @@ class FakeCoursesService @Inject constructor(
         }
     }
 
-    override suspend fun completeLesson(courseId: Int, lessonId: Int): Response<CourseDetailsDto> {
-        return respond {
-            val dto = synchronized(lock) {
-                val seed = SEED_COURSES.find { it.id == courseId }
-                val lessonExists = seed != null &&
-                        seed.lessonTitles.indices.any { lessonIdFor(seed.id, it) == lessonId }
-                if (seed != null && lessonExists) {
-                    completedLessons.getValue(courseId).add(lessonId) // idempotent
-                    seed.toDetailsDto()
-                } else {
-                    null
-                }
-            }
-            if (dto != null) Response.success(dto) else notFound()
-        }
-    }
+//    override suspend fun completeLesson(courseId: Int, lessonId: Int): Response<CourseDetailsDto> {
+//        return respond {
+//            val dto = synchronized(lock) {
+//                val seed = SEED_COURSES.find { it.id == courseId }
+//                val lessonExists = seed != null &&
+//                        seed.lessonTitles.indices.any { lessonIdFor(seed.id, it) == lessonId }
+//                if (seed != null && lessonExists) {
+//                    completedLessons.getValue(courseId).add(lessonId) // idempotent
+//                    seed.toDetailsDto()
+//                } else {
+//                    null
+//                }
+//            }
+//            if (dto != null) Response.success(dto) else notFound()
+//        }
+//    }
 
     /* ---------- Simulated network behaviour ---------- */
 

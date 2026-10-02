@@ -1,6 +1,7 @@
 package com.example.learningapp.data.network
 
 import kotlinx.coroutines.delay
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,15 +32,12 @@ interface AuthApi {
  * log in once while online, log out, set isOffline = true, then log in again.
  */
 @Singleton
-class FakeAuthApi @Inject constructor() : AuthApi {
+class FakeAuthApi @Inject constructor(val networkChecker: NetworkChecker) : AuthApi {
 
-    /** Simulates the server being unreachable. Inject [FakeAuthApi] directly to flip it in debug builds. */
-    @Volatile var isOffline: Boolean = false
 
     override suspend fun login(email: String, password: String): AuthResponse {
         delay(1500) // simulate latency
-
-        if (isOffline || email == "network@example.com") throw AuthException.Network()
+        if (!networkChecker.isOnline()) throw IOException("No internet connection")
 
         if (email == "test@example.com" && password == "password123") {
             return AuthResponse(email = email, token = "fake-jwt-${System.currentTimeMillis()}")

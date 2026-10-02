@@ -17,12 +17,12 @@ interface CoursesService {
     @GET("courses/{courseId}")
     suspend fun getCourseDetails(@Path("courseId") courseId: Int): Response<CourseDetailsDto>
 
-    /** Returns the updated course (new progress + lessons) so the client can store it as-is. */
-    @POST("courses/{courseId}/lessons/{lessonId}/complete")
-    suspend fun completeLesson(
-        @Path("courseId") courseId: Int,
-        @Path("lessonId") lessonId: Int,
-    ): Response<CourseDetailsDto>
+//    /** Returns the updated course (new progress + lessons) so the client can store it as-is. */
+//    @POST("courses/{courseId}/lessons/{lessonId}/complete")
+//    suspend fun completeLesson(
+//        @Path("courseId") courseId: Int,
+//        @Path("lessonId") lessonId: Int, )
+//        : Response<CourseDetailsDto>
 }
 
 /* Nullable fields: Gson ignores Kotlin nullability, so repositories validate before saving. */

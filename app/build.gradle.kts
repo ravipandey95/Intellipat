@@ -43,6 +43,11 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions{
+        unitTests{
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -63,6 +68,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.core)
+
+
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
