@@ -2,7 +2,7 @@
 
 Kotlin · Jetpack Compose · Hilt · Retrofit · Room · Coroutines/Flow
 
-This link contains a document for email and password for logging in the app also it contains the apk file, a Demo Video and a Screenshot of the passing test.
+This link contains a document for email and password to loggin to the app also it contains the apk file, a Demo Video and a Screenshot of the passing test.
 [Google Drive](https://drive.google.com/drive/folders/1mERRazGKfp0PVbnyn3Y8mxnG6zXXi9-B?usp=sharing)
 ## 1. Architecture
 MVVM with a Repository layer and one-way data flow:
