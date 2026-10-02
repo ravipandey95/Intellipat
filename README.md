@@ -1,7 +1,8 @@
 # Course Learning App
 
 Kotlin · Jetpack Compose · Hilt · Retrofit · Room · Coroutines/Flow
-
+This file contains the DEmo Video and a scrrenShot for test case passing.
+https://drive.google.com/drive/folders/1mERRazGKfp0PVbnyn3Y8mxnG6zXXi9-B?usp=sharing
 ## 1. Architecture
 MVVM with a Repository layer and one-way data flow:
 `Compose UI → ViewModel (StateFlow<UiState>) → Repository → Retrofit API + Room DAO`.
