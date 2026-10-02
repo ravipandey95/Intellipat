@@ -91,12 +91,12 @@ class CourseDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onCompleteLesson(lessonId: Int) {
+    fun onCompleteLesson(lessonId: Int, completed:Boolean) {
         if (opState.value.updatingLessonId != null) return // one update at a time
         opState.update { it.copy(updatingLessonId = lessonId) }
 
         viewModelScope.launch {
-            repository.markLessonCompleted(courseId, lessonId)
+            repository.setLessonCompleted(courseId, lessonId, completed)
                 .onFailure { _messages.send(it.toUserMessage("mark the lesson as completed")) }
             // On success nothing else is needed: the DB changed, so the lesson row, this screen's
             // progress and the home list all update themselves.

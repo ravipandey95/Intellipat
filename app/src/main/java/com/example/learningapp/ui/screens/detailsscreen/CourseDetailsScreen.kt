@@ -45,6 +45,7 @@ import com.example.learningapp.repository.Course
 import com.example.learningapp.repository.Lesson
 import com.example.learningapp.ui.screens.dashboard.ErrorBanner
 import com.example.learningapp.ui.screens.dashboard.ErrorState
+import androidx.compose.material3.RadioButton
 
 /** Stateful entry point. */
 @Composable
@@ -78,7 +79,7 @@ fun CourseDetailsContent(
     snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
     onRefresh: () -> Unit,
-    onCompleteLesson: (lessonId: Int) -> Unit,
+    onCompleteLesson: (lessonId: Int, isCompleted: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -156,7 +157,8 @@ fun CourseDetailsContent(
                             lesson = lesson,
                             isUpdating = state.updatingLessonId == lesson.id,
                             canComplete = state.updatingLessonId == null,
-                            onComplete = { onCompleteLesson(lesson.id) },
+                            onComplete = { isCompleted ->
+                                onCompleteLesson(lesson.id, isCompleted) },
                         )
                     }
                 }
@@ -218,7 +220,7 @@ private fun LessonRow(
     lesson: Lesson,
     isUpdating: Boolean,
     canComplete: Boolean,
-    onComplete: () -> Unit,
+    onComplete: (Boolean) -> Unit,
 ) {
     Card(Modifier.fillMaxWidth()) {
         Row(
@@ -243,10 +245,10 @@ private fun LessonRow(
                     modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp,
                 )
-                !lesson.isCompleted -> FilledTonalButton(
-                    onClick = onComplete,
-                    enabled = canComplete,
-                ) { Text("Mark completed") }
+                else -> RadioButton(
+                    selected = lesson.isCompleted,
+                    onClick = { onComplete(!lesson.isCompleted) },
+                    enabled = canComplete, )
             }
         }
     }
@@ -271,7 +273,7 @@ private const val PREVIEW_NETWORK_ERROR = "Network error. Check your connection 
 private fun DetailsPreviewLessons() = MaterialTheme {
     CourseDetailsContent(
         CourseDetailsUiState(course = previewCourse, lessons = previewLessons, isLoading = false),
-        SnackbarHostState(), {}, {}, {},
+        SnackbarHostState(), {}, {}, {_,_ ->},
     )
 }
 
@@ -282,7 +284,7 @@ private fun DetailsPreviewUpdating() = MaterialTheme {
         CourseDetailsUiState(
             course = previewCourse, lessons = previewLessons, isLoading = false, updatingLessonId = 104,
         ),
-        SnackbarHostState(), {}, {}, {},
+        SnackbarHostState(), {}, {}, {_,_ ->},
     )
 }
 
@@ -293,7 +295,7 @@ private fun DetailsPreviewOffline() = MaterialTheme {
         CourseDetailsUiState(
             course = previewCourse, lessons = previewLessons, isLoading = false, errorMessage = PREVIEW_NETWORK_ERROR,
         ),
-        SnackbarHostState(), {}, {}, {},
+        SnackbarHostState(), {}, {}, {_,_ ->},
     )
 }
 
@@ -302,6 +304,6 @@ private fun DetailsPreviewOffline() = MaterialTheme {
 private fun DetailsPreviewErrorEmpty() = MaterialTheme {
     CourseDetailsContent(
         CourseDetailsUiState(course = previewCourse, isLoading = false, errorMessage = PREVIEW_NETWORK_ERROR),
-        SnackbarHostState(), {}, {}, {},
+        SnackbarHostState(), {}, {}, {_,_ ->},
     )
 }
